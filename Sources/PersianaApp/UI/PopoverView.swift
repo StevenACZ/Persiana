@@ -21,7 +21,11 @@ struct PopoverView: View {
     VStack(spacing: 0) {
       header
       VStack(spacing: 12) {
-        if let blocker = hiding.blocker { banner(blocker) }
+        if let blocker = hiding.blocker {
+          banner(blocker)
+        } else if !hiding.strandedApps.isEmpty {
+          strandedBanner
+        }
         PrimaryButton(
           title: hiding.isHidden
             ? localized("Show hidden icons", "Mostrar iconos ocultos")
@@ -123,6 +127,22 @@ struct PopoverView: View {
       : localized(
         "Hides again after \(preferences.autoHideDelay.label)",
         "Se esconden solos tras \(preferences.autoHideDelay.label)")
+  }
+
+  private var strandedBanner: some View {
+    let formatter = ListFormatter()
+    formatter.locale = Locale(identifier: AppLanguage.usesSpanish ? "es" : "en")
+    let names = formatter.string(from: hiding.strandedApps.compactMap(\.localizedName)) ?? ""
+    return Banner(
+      icon: "folder.fill",
+      text: localized(
+        "macOS only keeps icons visible for apps in the Applications folder, so these hide too: \(names).",
+        "macOS solo deja visibles los iconos de apps que están en la carpeta Aplicaciones, así que estos también se esconden: \(names)."
+      ),
+      actionTitle: localized("Show in Finder", "Mostrar en Finder")
+    ) {
+      NSWorkspace.shared.activateFileViewerSelecting(hiding.strandedApps.compactMap(\.bundleURL))
+    }
   }
 
   @ViewBuilder

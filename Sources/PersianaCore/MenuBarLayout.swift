@@ -3,10 +3,12 @@ import CoreGraphics
 public struct StatusItemSnapshot: Equatable, Sendable {
   public let bundleIdentifier: String?
   public let frame: CGRect
+  public let canStayVisible: Bool
 
-  public init(bundleIdentifier: String?, frame: CGRect) {
+  public init(bundleIdentifier: String?, frame: CGRect, canStayVisible: Bool = true) {
     self.bundleIdentifier = bundleIdentifier
     self.frame = frame
+    self.canStayVisible = canStayVisible
   }
 }
 
@@ -19,6 +21,22 @@ public enum MenuBarLayout {
   public static let systemOwners: Set<String> = [
     "com.apple.MenuBarAgent", "com.apple.controlcenter", "com.apple.systemuiserver",
   ]
+
+  // macOS ignores the allow list for apps outside /Applications: their icons hide wherever they sit.
+  public static func canStayVisible(appPath: String) -> Bool {
+    appPath.hasPrefix("/Applications/")
+  }
+
+  public static func stranded(_ items: [StatusItemSnapshot], sides: [String: MenuBarSide])
+    -> Set<String>
+  {
+    Set(
+      items.compactMap { item in
+        guard !item.canStayVisible, let bundle = item.bundleIdentifier, sides[bundle] == .visible
+        else { return nil }
+        return bundle
+      })
+  }
 
   public static func sides(
     of items: [StatusItemSnapshot], boundary: CGRect, ownBundle: String?,

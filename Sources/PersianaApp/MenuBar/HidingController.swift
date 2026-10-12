@@ -20,6 +20,7 @@ final class HidingController {
 
   private(set) var phase: Phase = .shown
   private(set) var hiddenApps = 0
+  private(set) var strandedApps: [NSRunningApplication] = []
   private(set) var blocker: Blocker?
   private(set) var autoHideProgress: Double = 0
 
@@ -78,23 +79,32 @@ final class HidingController {
     hideTask = Task { [weak self] in
       let items = await MenuBarInventory.snapshot()
       guard let self, !Task.isCancelled, self.phase == .hiding else { return }
+      let anchoredItems = items.map {
+        StatusItemSnapshot(
+          bundleIdentifier: $0.bundleIdentifier,
+          frame: MenuBarLayout.anchored($0.frame, screens: screens, isLeftToRight: isLeftToRight),
+          canStayVisible: $0.canStayVisible)
+      }
       let sides = MenuBarLayout.sides(
-        of: items.map {
-          StatusItemSnapshot(
-            bundleIdentifier: $0.bundleIdentifier,
-            frame: MenuBarLayout.anchored($0.frame, screens: screens, isLeftToRight: isLeftToRight))
-        },
+        of: anchoredItems,
         boundary: MenuBarLayout.anchored(boundary, screens: screens, isLeftToRight: isLeftToRight),
         ownBundle: ownBundle, isLeftToRight: isLeftToRight)
       let visible = MenuBarLayout.visibleApps(
         remembered: self.preferences.visibleApps, updatedWith: sides)
       self.preferences.rememberVisibleApps(visible)
-      let hidden = sides.values.filter { $0 == .hidden }.count
+      let stranded = MenuBarLayout.stranded(anchoredItems, sides: sides)
+        .compactMap { NSRunningApplication.runningApplications(withBundleIdentifier: $0).first }
+        .sorted {
+          ($0.localizedName ?? "").localizedStandardCompare($1.localizedName ?? "")
+            == .orderedAscending
+        }
+      let hidden = sides.values.filter { $0 == .hidden }.count + stranded.count
       self.restriction.activate(
         allowing: MenuBarLayout.allowList(ownBundle: ownBundle, visibleApps: visible)
       ) { [weak self] succeeded in
         guard let self, self.phase == .hiding else { return }
         self.hiddenApps = hidden
+        self.strandedApps = stranded
         self.setPhase(succeeded ? .hidden : .shown)
       }
     }
@@ -153,6 +163,6 @@ final class HidingController {
 
 enum InstallLocation {
   static var isApplicationsFolder: Bool {
-    Bundle.main.bundleURL.deletingLastPathComponent().standardizedFileURL.path == "/Applications"
+    MenuBarLayout.canStayVisible(appPath: Bundle.main.bundleURL.standardizedFileURL.path)
   }
 }

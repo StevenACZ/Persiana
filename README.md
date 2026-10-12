@@ -59,6 +59,9 @@ sits. Settings stay on your Mac. See [Security and privacy](SECURITY.md).
 
 - Hiding works per app. An app with several menu bar icons hides or shows all of
   them together.
+- macOS keeps icons visible only for apps inside `/Applications`. Icons of apps in
+  any other folder, including `~/Applications`, hide even to the right of Persiana,
+  and Persiana's menu names them.
 - macOS's own items, such as the clock, Wi-Fi, battery and Control Center, always
   stay visible. You can turn most of them off in System Settings › Menu Bar.
 - Persiana needs macOS 27. On macOS 26 and earlier, apps such as Ice or Hidden Bar

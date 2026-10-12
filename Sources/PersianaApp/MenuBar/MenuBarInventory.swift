@@ -6,15 +6,20 @@ enum MenuBarInventory {
   private struct Target: Sendable {
     let pid: pid_t
     let bundleIdentifier: String?
+    let canStayVisible: Bool
   }
 
   @MainActor
   static func snapshot() async -> [StatusItemSnapshot] {
     let ownPID = ProcessInfo.processInfo.processIdentifier
     let flipY = NSScreen.screens.first?.frame.maxY ?? 0
-    let targets = NSWorkspace.shared.runningApplications
-      .filter { $0.processIdentifier != ownPID && $0.bundleURL?.pathExtension == "app" }
-      .map { Target(pid: $0.processIdentifier, bundleIdentifier: $0.bundleIdentifier) }
+    let targets = NSWorkspace.shared.runningApplications.compactMap { app -> Target? in
+      guard app.processIdentifier != ownPID, let url = app.bundleURL, url.pathExtension == "app"
+      else { return nil }
+      return Target(
+        pid: app.processIdentifier, bundleIdentifier: app.bundleIdentifier,
+        canStayVisible: MenuBarLayout.canStayVisible(appPath: url.standardizedFileURL.path))
+    }
     return await Task.detached(priority: .userInitiated) {
       targets.flatMap { statusItems(of: $0, flipY: flipY) }
     }.value
@@ -37,7 +42,8 @@ enum MenuBarInventory {
       frame(of: item).map {
         StatusItemSnapshot(
           bundleIdentifier: target.bundleIdentifier,
-          frame: CGRect(x: $0.minX, y: flipY - $0.maxY, width: $0.width, height: $0.height))
+          frame: CGRect(x: $0.minX, y: flipY - $0.maxY, width: $0.width, height: $0.height),
+          canStayVisible: target.canStayVisible)
       }
     }
   }

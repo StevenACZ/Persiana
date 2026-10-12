@@ -1,4 +1,5 @@
 import CoreGraphics
+import Foundation
 import Testing
 
 @testable import PersianaCore
@@ -61,6 +62,34 @@ struct MenuBarLayoutTests {
       remembered: ["quit.app", "moved.app"],
       updatedWith: ["moved.app": .hidden, "new.app": .visible])
     #expect(visible == ["quit.app", "new.app"])
+  }
+
+  @Test func onlyAppsInsideApplicationsCanStayVisible() {
+    #expect(MenuBarLayout.canStayVisible(appPath: "/Applications/A.app"))
+    #expect(MenuBarLayout.canStayVisible(appPath: "/Applications/Utilities/B.app"))
+    #expect(
+      MenuBarLayout.canStayVisible(
+        appPath: "/Applications/Host.app/Contents/Library/LoginItems/C.app"))
+    #expect(
+      !MenuBarLayout.canStayVisible(
+        appPath: FileManager.default.homeDirectoryForCurrentUser
+          .appending(path: "Applications/D.app").path))
+    #expect(!MenuBarLayout.canStayVisible(appPath: "/opt/tools/E.app"))
+    #expect(!MenuBarLayout.canStayVisible(appPath: "/ApplicationsOld/F.app"))
+  }
+
+  @Test func strandedAppsAreOnlyVisibleSideAppsMacOSCannotKeep() {
+    let items = [
+      StatusItemSnapshot(
+        bundleIdentifier: "stuck.app", frame: CGRect(x: 600, y: 0, width: 24, height: 24),
+        canStayVisible: false),
+      StatusItemSnapshot(
+        bundleIdentifier: "left.app", frame: CGRect(x: 400, y: 0, width: 24, height: 24),
+        canStayVisible: false),
+      item("kept.app", x: 650),
+    ]
+    let sides = MenuBarLayout.sides(of: items, boundary: boundary, ownBundle: nil)
+    #expect(MenuBarLayout.stranded(items, sides: sides) == ["stuck.app"])
   }
 
   @Test func allowListPutsTheOwnAppFirstOnce() {

@@ -1,6 +1,7 @@
 .build/
 .swiftpm/
 build/
+build.noindex/
 dist/
 *.app
 .DS_Store

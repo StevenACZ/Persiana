@@ -64,6 +64,7 @@ final class Preferences {
   }
 
   func setLaunchAtLogin(_ enabled: Bool) {
+    guard !enabled || InstallLocation.isApplicationsFolder else { return }
     do {
       if enabled {
         try SMAppService.mainApp.register()

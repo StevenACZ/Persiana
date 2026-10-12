@@ -3,9 +3,10 @@ set -euo pipefail
 cd -P "$(dirname "$0")/.."
 distribution="${PERSIANA_DISTRIBUTION:-0}"
 [[ "$distribution" == 0 || "$distribution" == 1 ]] || exit 64
-output_dir="${PERSIANA_OUTPUT_DIR:-$PWD/build}"
+# A .noindex folder keeps this copy out of Spotlight: only /Applications/Persiana.app can work.
+output_dir="${PERSIANA_OUTPUT_DIR:-$PWD/build.noindex}"
 if [[ "$distribution" == 1 && -z "${PERSIANA_OUTPUT_DIR:-}" ]]; then
-    output_dir="$PWD/build/distribution"
+    output_dir="$PWD/build.noindex/distribution"
 fi
 mkdir -p "$output_dir"
 output_dir="$(cd "$output_dir" && pwd -P)"

@@ -132,6 +132,7 @@ struct SettingsView: View {
           set: { enabled in preferences.setLaunchAtLogin(enabled) })
       )
       .toggleStyle(.settingSwitch)
+      .disabled(!InstallLocation.isApplicationsFolder)
       if preferences.loginNeedsApproval {
         Banner(
           icon: "exclamationmark.circle.fill",

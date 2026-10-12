@@ -90,7 +90,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     hiding.refreshBlocker()
     guard !didFinishSetup else { return }
     didFinishSetup = true
-    if !preferences.tutorialCompleted {
+    if hiding.blocker == .location {
+      statusItem.showPopover()
+    } else if !preferences.tutorialCompleted {
       windows.showTutorial()
     } else if preferences.hideOnLaunch {
       hide(after: 2)

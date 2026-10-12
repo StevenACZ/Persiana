@@ -8,8 +8,8 @@ ensure_app_closed() {
     fi
 }
 ensure_app_closed
-PERSIANA_DISTRIBUTION=0 PERSIANA_OUTPUT_DIR="$PWD/build" scripts/build.sh
-bundle="$PWD/build/Persiana.app"
+PERSIANA_DISTRIBUTION=0 PERSIANA_OUTPUT_DIR="$PWD/build.noindex" scripts/build.sh
+bundle="$PWD/build.noindex/Persiana.app"
 # macOS 27 hides Persiana's own menu bar icon when the app runs outside /Applications.
 parent_dir="${PERSIANA_INSTALL_DIR:-/Applications}"
 destination="$parent_dir/Persiana.app"
@@ -26,7 +26,7 @@ trap cleanup EXIT
 ditto "$bundle" "$install_stage/Persiana.app"
 codesign --verify --deep --strict "$install_stage/Persiana.app"
 if [[ -e "$destination" ]]; then
-    backup="$PWD/build/rollback-$(date +%Y%m%d-%H%M%S)-$(uuidgen | cut -c1-8).zip"
+    backup="$PWD/build.noindex/rollback-$(date +%Y%m%d-%H%M%S)-$(uuidgen | cut -c1-8).zip"
     ditto -c -k --norsrc --noextattr --keepParent "$destination" "$backup"
     ditto -x -k "$backup" "$install_stage/rollback-check"
     codesign --verify --deep --strict "$install_stage/rollback-check/Persiana.app"

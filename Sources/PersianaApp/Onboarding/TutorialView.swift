@@ -94,6 +94,7 @@ struct TutorialView: View {
           set: { enabled in preferences.setLaunchAtLogin(enabled) })
       )
       .toggleStyle(.settingSwitch)
+      .disabled(!InstallLocation.isApplicationsFolder)
     }
     .padding(14)
     .frame(width: 520)

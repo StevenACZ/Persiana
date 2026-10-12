@@ -27,7 +27,8 @@ older one, because macOS 27 would then draw the app without Liquid Glass.
 `PERSIANA_SIGN_IDENTITY` selects an installed signing identity.
 `PERSIANA_INSTALL_DIR` overrides the default `/Applications` destination. The
 installer refuses to overwrite a running app and saves an existing installation in
-`build/rollback-*.zip`.
+`build.noindex/rollback-*.zip`. Builds land in `build.noindex/` so Spotlight never
+lists a second Persiana: a copy outside `/Applications` cannot hide icons.
 
 ## QA notes
 

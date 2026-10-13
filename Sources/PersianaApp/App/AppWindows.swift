@@ -18,6 +18,7 @@ final class AppWindows: NSObject, NSWindowDelegate {
   }
 
   func showSettings() {
+    UpdateManager.shared.surfaceDidOpen()
     if settings == nil {
       settings = makeController(
         title: localized("Persiana Settings", "Configuración de Persiana"),
@@ -31,6 +32,7 @@ final class AppWindows: NSObject, NSWindowDelegate {
   }
 
   func showAbout() {
+    UpdateManager.shared.surfaceDidOpen()
     if about == nil {
       about = makeController(
         title: localized("About Persiana", "Acerca de Persiana"), rootView: AboutView())

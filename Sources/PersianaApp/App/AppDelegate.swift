@@ -46,6 +46,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
   func applicationDidFinishLaunching(_ notification: Notification) {
     preferences.refreshLoginState()
+    UpdateManager.shared.start()
     hiding = HidingController(preferences: preferences)
     windows = AppWindows(preferences: preferences, hiding: hiding)
     statusItem = StatusItemController(

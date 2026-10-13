@@ -87,6 +87,7 @@ final class StatusItemController: NSObject, NSPopoverDelegate {
 
   func showPopover() {
     guard let button = item.button, !popover.isShown else { return }
+    UpdateManager.shared.surfaceDidOpen()
     let host = NSHostingController(
       rootView: PopoverView(hiding: hiding, preferences: preferences, actions: panelActions))
     host.sizingOptions = [.preferredContentSize]

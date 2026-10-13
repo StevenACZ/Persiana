@@ -7,16 +7,19 @@ does not read window contents or keystrokes, and it does not request Screen
 Recording, Microphone, Full Disk Access or Automation permission. Settings are
 stored locally in the app's preferences.
 
-Persiana has no network code. It does not check for updates, send analytics or
-require an account.
+Persiana does not send analytics or require an account. Update checks and
+downloads contact GitHub, the public release host, which can receive normal request
+metadata such as your IP address. Automatic checks can be turned off in Settings.
 
 To hide icons, Persiana uses a private macOS interface. If that interface is
 missing or rejects the request, Persiana fails open and shows every icon.
 
-## Distribution
+## Distribution and updates
 
-Public release artifacts will use Developer ID signing and notarization. Local
-development builds use Apple Development signing. The repository contains no
+Public release artifacts use Developer ID signing and notarization. Sparkle 2
+verifies EdDSA-signed updates, and installing one requires a user action. Local
+development builds use Apple Development signing and do not consume the public
+update feed. The repository contains no
 certificates, Team IDs or other signing credentials; each builder uses their own
 identity. Download releases only from the project's
 [GitHub Releases](https://github.com/StevenACZ/Persiana/releases).

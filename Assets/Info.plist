@@ -4,11 +4,6 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
-	<key>CFBundleLocalizations</key>
-	<array>
-		<string>en</string>
-		<string>es</string>
-	</array>
 	<key>CFBundleDisplayName</key>
 	<string>Persiana</string>
 	<key>CFBundleExecutable</key>
@@ -17,6 +12,11 @@
 	<string>AppIcon.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.stevenacz.Persiana</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>es</string>
+	</array>
 	<key>CFBundleName</key>
 	<string>Persiana</string>
 	<key>CFBundlePackageType</key>
@@ -35,5 +35,19 @@
 	<string>© 2026 StevenACZ</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>PersianaDevelopmentBuild</key>
+	<true/>
+	<key>SUAutomaticallyUpdate</key>
+	<false/>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
+	<key>SUFeedURL</key>
+	<string>https://github.com/StevenACZ/Persiana/releases/latest/download/appcast.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>EjJwYzuWlNuccLSqIcVxHRlGMLg7R6ONwpUjnVbFqY8=</string>
+	<key>SUScheduledCheckInterval</key>
+	<integer>86400</integer>
+	<key>SUSendProfileInfo</key>
+	<false/>
 </dict>
 </plist>

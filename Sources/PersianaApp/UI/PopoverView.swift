@@ -26,6 +26,9 @@ struct PopoverView: View {
         } else if !hiding.strandedApps.isEmpty {
           strandedBanner
         }
+        if UpdateManager.shared.available, UpdateManager.shared.phase != .idle {
+          UpdateCard()
+        }
         PrimaryButton(
           title: hiding.isHidden
             ? localized("Show hidden icons", "Mostrar iconos ocultos")
@@ -61,6 +64,7 @@ struct PopoverView: View {
     .tint(Theme.accent)
     .animation(reduceMotion ? nil : Theme.Anim.content, value: hiding.phase)
     .animation(reduceMotion ? nil : Theme.Anim.content, value: hiding.blocker)
+    .animation(reduceMotion ? nil : Theme.Anim.content, value: UpdateManager.shared.phase)
   }
 
   private var header: some View {

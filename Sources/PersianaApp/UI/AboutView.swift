@@ -28,6 +28,7 @@ struct AboutView: View {
         Text("v\(version) · \(build)")
           .font(.caption.monospaced())
           .foregroundStyle(.secondary)
+        AboutUpdateStatus()
       }
       Text(localized("A tidy menu bar, one click away.", "Una barra de menús ordenada, a un clic."))
         .font(.callout)
@@ -52,7 +53,7 @@ struct AboutView: View {
       }
     }
     .padding(.horizontal, 26)
-    .padding(.top, 30)
+    .padding(.top, 8)
     .padding(.bottom, 20)
     .frame(width: 380)
     .fixedSize(horizontal: false, vertical: true)

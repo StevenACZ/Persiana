@@ -52,6 +52,15 @@ if [[ -n "${APP_BUILD:-}" ]]; then
     [[ "$APP_BUILD" =~ ^[1-9][0-9]*$ ]] || exit 64
     /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $APP_BUILD" "$plist"
 fi
+/usr/libexec/PlistBuddy -c 'Delete :PersianaDevelopmentBuild' "$plist" 2>/dev/null || true
+if [[ "$distribution" == 1 ]]; then development=false; else development=true; fi
+/usr/libexec/PlistBuddy -c "Add :PersianaDevelopmentBuild bool $development" "$plist"
+frameworks=(.build/artifacts/sparkle/Sparkle/Sparkle.xcframework/macos-*/Sparkle.framework)
+[[ ${#frameworks[@]} == 1 && -d "${frameworks[0]}" ]] || {
+    echo 'Expected exactly one Sparkle macOS framework.' >&2; exit 66;
+}
+mkdir -p "$bundle/Contents/Frameworks"
+ditto "${frameworks[0]}" "$bundle/Contents/Frameworks/Sparkle.framework"
 binary="$bundle/Contents/MacOS/Persiana"
 while IFS= read -r rpath; do
     if [[ "$rpath" == /* ]]; then install_name_tool -delete_rpath "$rpath" "$binary"; fi

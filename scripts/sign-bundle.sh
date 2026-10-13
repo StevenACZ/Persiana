@@ -17,6 +17,11 @@ if [[ -z "$identity" ]]; then
 fi
 flags=(--force --options runtime --sign "$identity")
 if [[ "$distribution" == 1 ]]; then flags+=(--timestamp); else flags+=(--timestamp=none); fi
+framework="$bundle/Contents/Frameworks/Sparkle.framework"
+for nested in XPCServices/Downloader.xpc XPCServices/Installer.xpc Updater.app Autoupdate; do
+    codesign "${flags[@]}" --preserve-metadata=entitlements "$framework/Versions/B/$nested"
+done
+codesign "${flags[@]}" "$framework"
 codesign "${flags[@]}" "$bundle"
 codesign --verify --deep --strict "$bundle"
 codesign -dvv "$bundle" 2>&1 | awk -v kind="$authority" 'index($0, "Authority=" kind ":") == 1 {found=1} END {exit !found}'

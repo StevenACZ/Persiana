@@ -21,6 +21,8 @@ usas poco y los devuelve cuando los necesitas.
 - Te guía por el permiso de Accesibilidad y un tutorial animado la primera vez que
   la abres. El tutorial sigue disponible desde el menú.
 - Habla inglés y español.
+- Se mantiene al día: una versión nueva aparece en su menú y se instala con un
+  clic.
 
 ## Cómo se usa
 
@@ -43,20 +45,23 @@ usas poco y los devuelve cuando los necesitas.
 
 ## Instalación
 
-Las versiones firmadas se publicarán pronto en
-[Releases](https://github.com/StevenACZ/Persiana/releases). Mientras tanto,
-compílala desde el código fuente.
-
-1. Arrastra Persiana a Aplicaciones y ábrela.
-2. Permite Persiana en Configuración del Sistema › Privacidad y seguridad › Accesibilidad
+1. Descarga el DMG más reciente de Persiana desde
+   [Releases](https://github.com/StevenACZ/Persiana/releases/latest).
+2. Ábrelo, arrastra Persiana a Aplicaciones y abre Persiana desde ahí.
+3. Permite Persiana en Configuración del Sistema › Privacidad y seguridad › Accesibilidad
    cuando la ventana de configuración lo pida.
-3. Sigue el tutorial breve y ordena tus iconos con ⌘ y arrastrar.
+4. Sigue el tutorial breve y ordena tus iconos con ⌘ y arrastrar.
 
-## Privacidad
+## Privacidad y actualizaciones
 
-Persiana no tiene ningún código de red. No pide Grabación de pantalla ni lee lo que
-escribes. Accesibilidad se usa solo para leer dónde está cada icono de la barra de
-menús. Los ajustes quedan en tu Mac. Consulta [seguridad y privacidad](SECURITY.md).
+Persiana no pide Grabación de pantalla ni lee lo que escribes. Accesibilidad se usa
+solo para leer dónde está cada icono de la barra de menús. Los ajustes quedan en tu
+Mac. Consulta [seguridad y privacidad](SECURITY.md).
+
+Su único acceso a la red es buscar actualizaciones en GitHub Releases. Cuando sale
+una versión nueva, el menú de Persiana la ofrece y solo se instala cuando tú lo
+eliges. Puedes apagar la búsqueda automática en Configuración › Actualizaciones.
+Las versiones de desarrollo no usan el canal público de actualizaciones.
 
 ## Limitaciones
 

@@ -56,9 +56,10 @@ struct SettingsView: View {
         .pickerStyle(.segmented)
         .labelsHidden()
       }
+      UpdateSettingsCard()
     }
     .padding(.horizontal, 20)
-    .padding(.top, 30)
+    .padding(.top, 8)
     .padding(.bottom, 20)
     .frame(width: 460)
     .fixedSize(horizontal: false, vertical: true)

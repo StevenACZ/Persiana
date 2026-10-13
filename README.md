@@ -21,6 +21,8 @@ of sight and brings them back when you need them.
 - Walks you through the Accessibility permission and an animated tutorial on first
   launch. The tutorial is always available from the menu.
 - Speaks English and Spanish.
+- Keeps itself up to date: a new version shows up in its menu and installs with one
+  click.
 
 ## How to use
 
@@ -41,19 +43,23 @@ of sight and brings them back when you need them.
 
 ## Install
 
-Signed builds will be published on [Releases](https://github.com/StevenACZ/Persiana/releases)
-soon. Until then, build it from source.
-
-1. Drag Persiana into Applications and open it.
-2. Allow Persiana in System Settings › Privacy & Security › Accessibility when the
+1. Download the latest Persiana DMG from
+   [Releases](https://github.com/StevenACZ/Persiana/releases/latest).
+2. Open it, drag Persiana into Applications and open Persiana from there.
+3. Allow Persiana in System Settings › Privacy & Security › Accessibility when the
    setup window asks.
-3. Follow the short tutorial, then arrange your icons with ⌘-drag.
+4. Follow the short tutorial, then arrange your icons with ⌘-drag.
 
-## Privacy
+## Privacy and updates
 
-Persiana has no network code at all. It does not request Screen Recording and does
-not read keystrokes. Accessibility is used only to read where each menu bar icon
-sits. Settings stay on your Mac. See [Security and privacy](SECURITY.md).
+Persiana does not request Screen Recording and does not read keystrokes.
+Accessibility is used only to read where each menu bar icon sits. Settings stay on
+your Mac. See [Security and privacy](SECURITY.md).
+
+Its only network access is the update check against GitHub Releases. When a new
+version is out, Persiana's menu offers it, and it installs only when you choose to.
+You can turn automatic checks off in Settings › Updates. Development builds do not
+use the public update feed.
 
 ## Limitations
 

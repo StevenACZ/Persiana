@@ -12,14 +12,21 @@ enum PersianaGlyph {
       NSColor.black.setFill()
       NSBezierPath(roundedRect: NSRect(x: 2, y: 1.5, width: 14, height: 2), xRadius: 1, yRadius: 1)
         .fill()
-      let thickness = 2.6 - 1.5 * open
+      let thickness = mix(2, 1.1, open)
+      let radius = mix(0.6, thickness / 2, open)
       for index in 0..<4 {
-        let center = 6 + CGFloat(index) * 3.15
-        let inset = 0.6 * open
+        let center = 6 + CGFloat(index) * mix(3, 3.15, open)
         NSBezierPath(
           roundedRect: NSRect(
-            x: 2.5 + inset, y: center - thickness / 2, width: 13 - inset * 2, height: thickness),
-          xRadius: thickness / 2, yRadius: thickness / 2
+            x: mix(2, 3.1, open), y: center - thickness / 2, width: mix(14, 11.8, open),
+            height: thickness),
+          xRadius: radius, yRadius: radius
+        ).fill()
+      }
+      if open < 1 {
+        NSBezierPath(
+          roundedRect: NSRect(x: 7.5, y: 16, width: 3, height: 1.5 * (1 - open)),
+          xRadius: 0.5, yRadius: 0.5
         ).fill()
       }
       return true
@@ -28,5 +35,9 @@ enum PersianaGlyph {
     image.accessibilityDescription = "Persiana"
     cache[step] = image
     return image
+  }
+
+  private static func mix(_ closed: CGFloat, _ opened: CGFloat, _ open: CGFloat) -> CGFloat {
+    closed + (opened - closed) * open
   }
 }

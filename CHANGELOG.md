@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-10-12
+
 ### Added
 
 - Hide the menu bar icons of the apps placed to the left of Persiana's icon; icons to its right stay visible. Arrange them by holding ⌘ and dragging.
@@ -15,3 +17,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - First launch guides you through the Accessibility permission and then plays an animated step-by-step tutorial, also available from How it works.
 - English and Spanish interface.
 - If macOS does not accept the hiding request, Persiana shows every icon instead of hiding the wrong ones.
+- Persiana's menu names the apps whose icons macOS hides anyway because they run outside the Applications folder, and shows them in Finder.
+- In-app updates: a new version appears as a card in Persiana's menu, downloads with one click and installs when you choose. Automatic checks can be turned off in Settings › Updates.

@@ -374,7 +374,7 @@ final class UpdateManager {
   }
 
   func handleExtractionStarted() {
-    phase = .installing
+    phase = .downloading(fraction: 1)
   }
 
   func handleReadyToInstall(reply: @escaping (SPUUserUpdateChoice) -> Void) {

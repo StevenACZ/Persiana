@@ -66,11 +66,11 @@ final class UpdateManagerTests: XCTestCase {
     XCTAssertEqual(manager.phase, .downloading(fraction: 1.0))
   }
 
-  func testExtractionShowsInstalling() {
+  func testExtractionKeepsTheFinishedDownloadBar() {
     let manager = makeManager()
     manager.handleExtractionStarted()
 
-    XCTAssertEqual(manager.phase, .installing)
+    XCTAssertEqual(manager.phase, .downloading(fraction: 1))
   }
 
   func testReadyToInstallHoldsTheReplyAndSurfacesTheChoice() {
@@ -863,7 +863,7 @@ final class UpdateManagerTests: XCTestCase {
     XCTAssertEqual(userChecks, 0)
   }
 
-  func testUpdateClickWhileInstallingIsIgnored() {
+  func testUpdateClickWhileUnpackingIsIgnored() {
     let manager = makeDiscoveryManager()
     var resumeStarts = 0
     manager.isSessionInProgress = { _ in true }
@@ -877,7 +877,7 @@ final class UpdateManagerTests: XCTestCase {
 
     manager.installPendingUpdate()
 
-    XCTAssertEqual(manager.phase, .installing)
+    XCTAssertEqual(manager.phase, .downloading(fraction: 1))
     XCTAssertFalse(manager.resumeCheckPending)
     XCTAssertEqual(resumeStarts, 1)
   }
@@ -946,8 +946,12 @@ final class UpdateManagerTests: XCTestCase {
     downloading.handleDownloadInitiated()
     XCTAssertFalse(downloading.phaseAllowsQuietCheck)
 
+    let unpacking = makeDiscoveryManager()
+    unpacking.handleExtractionStarted()
+    XCTAssertFalse(unpacking.phaseAllowsQuietCheck)
+
     let installing = makeDiscoveryManager()
-    installing.handleExtractionStarted()
+    installing.handleInstalling()
     XCTAssertFalse(installing.phaseAllowsQuietCheck)
 
     let held = makeDiscoveryManager()

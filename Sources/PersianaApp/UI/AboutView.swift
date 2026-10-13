@@ -28,7 +28,9 @@ struct AboutView: View {
         Text("v\(version) · \(build)")
           .font(.caption.monospaced())
           .foregroundStyle(.secondary)
-        AboutUpdateStatus()
+        if UpdateManager.shared.available {
+          AboutUpdateStatus()
+        }
       }
       Text(localized("A tidy menu bar, one click away.", "Una barra de menús ordenada, a un clic."))
         .font(.callout)
